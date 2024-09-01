@@ -5,6 +5,7 @@ import { Title } from '@/components/shared';
 import { useIntersection } from 'react-use';
 import { ProductCard } from '@/components/shared';
 import { cn } from '@/lib/utils';
+import { useCategoryStore } from '@/store/category';
 
 interface Props {
   title: string;
@@ -21,12 +22,13 @@ export const ProductsGroupList: React.FC<Props> = ({
   categoryId,
   listClassName,
 }) => {
+  const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
   const intersectionRef = useRef(null);
   const intersection = useIntersection(intersectionRef, { threshold: 0.4 }); //thershold - при каком проценте видимости сработает функция коллбек
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
-      console.log(title, categoryId);
+      setActiveCategoryId(categoryId);
     }
   }, [title, categoryId, intersection?.isIntersecting]);
 
