@@ -1,0 +1,34 @@
+//тут мы объясняем призме, что генерируем схему для JS
+generator client {
+  provider = "prisma-client-js"
+}
+
+//объясняем призме с какой БД она будет работать
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+//дальше уже создаем сами таблицы
+//для того, чтобы создать модель используем ключевое слово model
+model User {
+  id       Int    @id @default(autoincrement())
+  fullName String
+  email    String
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt //Эта аннотация указывает, что значение поля должно 
+  //автоматически обновляться на текущее время при каждом обновлении записи.
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  name     String
+  imageUrl String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
